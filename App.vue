@@ -30,33 +30,46 @@ export default {
     }
   },
   computed: {
+    // getState() {
+    //   if (this.errorState == 'default') {
+    //     return 'outline-neo-pale-blue';
+    //   } else {
+    //     return 'outline-neo-light-red';
+    //   }
+    // },
+    // getGapInput() {
+    //   if (this.errorState == 'default') {
+    //     return 'gap-[10px]';
+    //   } else {
+    //     return 'gap-[18px]';
+    //   }
+    // },
+    // getGapImage() {
+    //   if (this.errorState == 'default') {
+    //     return 'gap-[72px] dsk:gap-[82px]';
+    //   } else {
+    //     return 'gap-[40px] dsk:gap-[64px]';
+    //   }
+    // },
     getState() {
+      let inputBorder, inputGap, imageGap;
       if (this.errorState == 'default') {
-        return 'outline-neo-pale-blue';
+        inputBorder = 'outline-neo-pale-blue';
+        inputGap = 'gap-[10px]';
+        imageGap = 'gap-[72px] dsk:gap-[82px]';
       } else {
-        return 'outline-neo-light-red';
+        inputBorder = 'outline-neo-light-red';
+        inputGap = 'gap-[18px]';
+        imageGap = 'gap-[40px] dsk:gap-[64px]';
       }
-    },
-    getGapInput() {
-      if (this.errorState == 'default') {
-        return 'gap-[10px]';
-      } else {
-        return 'gap-[18px]';
-      }
-    },
-    getGapImage() {
-      if (this.errorState == 'default') {
-        return 'gap-[72px] dsk:gap-[82px]';
-      } else {
-        return 'gap-[40px] dsk:gap-[64px]';
-      }
+      return { inputBorder, inputGap, imageGap };
     }
   }
 }
 </script>
 <template>
   <body class=" flex flex-col items-center gap-[120px] dsk:gap-[72px] font-franklin">
-    <main :class="` flex flex-col items-center ${getGapImage} mt-[85px] dsk:mt-[86px]`">
+    <main :class="` flex flex-col items-center ${getState.imageGap} mt-[85px] dsk:mt-[86px]`">
       <div class=" flex flex-col items-center gap-[34px] dsk:gap-[42px]">
         <div :class="` w-[56px] dsk:w-[90px] h-[17px] dsk:h-[28px] ${logoImg} bg-contain`"></div>
         <div class=" flex flex-col items-center gap-[16px] dsk:gap-[18px]">
@@ -68,10 +81,10 @@ export default {
             get notified</p>
         </div>
         <!-- Form -->
-        <div :class="` flex flex-col dsk:flex-row ${getGapInput} dsk:gap-4 w-[282px] dsk:w-full`">
+        <div :class="` flex flex-col dsk:flex-row ${getState.inputGap} dsk:gap-4 w-[282px] dsk:w-full`">
           <div class=" flex flex-col gap-[2px] dsk:gap-[6px]">
             <input @keypress="errorState = 'default'"
-              :class="`w-full dsk:w-[421px] h-[40px] dsk:h-[56px] px-[32px] dsk:px-[30px] ${getState} text-neo-dark placeholder:text-neo-pale-blue text-[12px] dsk:text-[16px] leading-[20px] outline outline-1 rounded-[28px]`"
+              :class="`w-full dsk:w-[421px] h-[40px] dsk:h-[56px] px-[32px] dsk:px-[30px] ${getState.inputBorder} text-neo-dark placeholder:text-neo-pale-blue text-[12px] dsk:text-[16px] leading-[20px] outline outline-1 rounded-[28px]`"
               type="email" placeholder="Your email address..." v-model="emailText" maxlength="32">
             <div
               class=" dsk:px-[30px] text-neo-light-red text-center dsk:text-left text-[10px] dsk:text-[12px] leading-[20px] tracking-[.13px] italic">
