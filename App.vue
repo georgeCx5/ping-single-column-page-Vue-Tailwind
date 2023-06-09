@@ -30,27 +30,6 @@ export default {
     }
   },
   computed: {
-    // getState() {
-    //   if (this.errorState == 'default') {
-    //     return 'outline-neo-pale-blue';
-    //   } else {
-    //     return 'outline-neo-light-red';
-    //   }
-    // },
-    // getGapInput() {
-    //   if (this.errorState == 'default') {
-    //     return 'gap-[10px]';
-    //   } else {
-    //     return 'gap-[18px]';
-    //   }
-    // },
-    // getGapImage() {
-    //   if (this.errorState == 'default') {
-    //     return 'gap-[72px] dsk:gap-[82px]';
-    //   } else {
-    //     return 'gap-[40px] dsk:gap-[64px]';
-    //   }
-    // },
     getState() {
       let inputBorder, inputGap, imageGap;
       if (this.errorState == 'default') {
