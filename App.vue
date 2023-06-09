@@ -5,40 +5,96 @@ import dashboardImg from '@/assets/images/illustration-dashboard.png'
 export default {
   data() {
     return {
-      emailRgx: new RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
+      rgxEmail: new RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/),
+      emailText: '',
       dashboardImg,
       logoImg: 'bg-[url("@/assets/images/logo.svg")]',
+      errorState: 'default',
     }
   },
   components: {
     PlatformManager,
+  },
+  methods: {
+    checkEmail() {
+      if (this.emailText.length <= 0) {
+        this.errorState = 'empty';
+        return;
+      }
+      if (this.rgxEmail.test(this.emailText)) {
+        this.errorState = 'default';
+        this.emailText = '';
+      } else {
+        this.errorState = 'error';
+      }
+    }
+  },
+  computed: {
+    getState() {
+      if (this.errorState == 'default') {
+        return 'outline-neo-pale-blue';
+      } else {
+        return 'outline-neo-light-red';
+      }
+    },
+    getGapInput() {
+      if (this.errorState == 'default') {
+        return 'gap-[10px]';
+      } else {
+        return 'gap-[18px]';
+      }
+    },
+    getGapImage() {
+      if (this.errorState == 'default') {
+        return 'gap-[72px] dsk:gap-[82px]';
+      } else {
+        return 'gap-[40px] dsk:gap-[64px]';
+      }
+    }
   }
 }
 </script>
 <template>
-  <body class="  font-franklin">
-    <main class=" flex flex-col items-center">
-      <div :class="`${logoImg} w-[56px] h-[17px] bg-contain`"></div>
-      <h1 class=" text-[22px] leading-[32px] text-neo-gray font-light">We are launching
-        <span class=" text-neo-dark font-bold">soon!</span>
-      </h1>
-      <p class=" text-neo-dark text-[12px] leading-[15px] font-light">Subscribe and get notified</p>
-      <div class=" w-[282px]">
-        <input
-          class=" w-full h-[40px] px-8 text-neo-pale-blue text-[12px] leading-[20px] outline outline-1 outline-neo-pale-blue rounded-[28px]"
-          type="email">
-        <button class=" w-full h-[40px] bg-neo-blue text-white text-[12px] leading-[16px] font-semibold rounded-[28px]"
-          type="submit">Notify Me</button>
+  <body class=" flex flex-col items-center gap-[120px] dsk:gap-[72px] font-franklin">
+    <main :class="` flex flex-col items-center ${getGapImage} mt-[85px] dsk:mt-[86px]`">
+      <div class=" flex flex-col items-center gap-[34px] dsk:gap-[42px]">
+        <div :class="` w-[56px] dsk:w-[90px] h-[17px] dsk:h-[28px] ${logoImg} bg-contain`"></div>
+        <div class=" flex flex-col items-center gap-[16px] dsk:gap-[18px]">
+          <h1 class=" text-[22px] dsk:text-[48px] leading-[32px] dsk:leading-[60px] text-neo-gray font-light">We are
+            launching
+            <span class=" text-neo-dark font-bold">soon!</span>
+          </h1>
+          <p class=" text-neo-dark text-[12px] dsk:text-[20px] leading-[15px] dsk:leading-[24px] font-light">Subscribe and
+            get notified</p>
+        </div>
+        <!-- Form -->
+        <div :class="` flex flex-col dsk:flex-row ${getGapInput} dsk:gap-4 w-[282px] dsk:w-full`">
+          <div class=" flex flex-col gap-[2px] dsk:gap-[6px]">
+            <input @keypress="errorState = 'default'"
+              :class="`w-full dsk:w-[421px] h-[40px] dsk:h-[56px] px-[32px] dsk:px-[30px] ${getState} text-neo-dark placeholder:text-neo-pale-blue text-[12px] dsk:text-[16px] leading-[20px] outline outline-1 rounded-[28px]`"
+              type="email" placeholder="Your email address..." v-model="emailText" maxlength="32">
+            <div
+              class=" dsk:px-[30px] text-neo-light-red text-center dsk:text-left text-[10px] dsk:text-[12px] leading-[20px] tracking-[.13px] italic">
+              <h5 v-show="errorState == 'empty'">Whoops! It looks like you forgot to add your email</h5>
+              <h5 v-show="errorState == 'error'">Please provide a valid email address</h5>
+            </div>
+          </div>
+          <button @click="checkEmail()"
+            class=" w-full dsk:w-[200px] h-[40px] dsk:h-[56px] bg-neo-blue text-white text-[12px] dsk:text-[16px] leading-[16px] dsk:leading-[19px] font-semibold rounded-[28px]"
+            type="submit">Notify Me</button>
+        </div>
+        <!-- - -->
       </div>
-      <img class=" w-[320px]" :src="dashboardImg" alt="dashboardImg">
+      <img class=" w-[320px] dsk:w-[640px]" :src="dashboardImg" alt="dashboardImg">
     </main>
-    <footer class=" flex flex-col items-center">
-      <h3 class=" text-neo-gray text-[10px] leading-[12px]">&copy; Copyright Ping. All rights reserved.</h3>
+    <footer class=" flex flex-col items-center gap-[27px] dsk:gap-[25px] mb-9 dsk:mb-12">
       <div class=" flex gap-3">
         <PlatformManager platform="facebook" />
         <PlatformManager platform="twitter" />
         <PlatformManager platform="instagram" />
       </div>
+      <h3 class=" text-neo-gray text-[10px] dsk:text-[12px] leading-[12px] dsk:leading-[15px]">&copy; Copyright Ping. All
+        rights reserved.</h3>
     </footer>
   </body>
 </template>
